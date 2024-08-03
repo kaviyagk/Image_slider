@@ -5,6 +5,7 @@ const next = document.querySelector('.next');
 
 let counter = 0;
 const size = images[0].clientWidth;
+let slideInterval;
 
 function slide() {
     slides.style.transition = 'transform 0.5s ease-in-out';
@@ -27,11 +28,22 @@ function prevSlide() {
     slide();
 }
 
-next.addEventListener('click', nextSlide);
-prev.addEventListener('click', prevSlide);
+function resetInterval() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nextSlide, 3000);
+}
 
-setInterval(nextSlide, 2000);
+next.addEventListener('click', () => {
+    nextSlide();
+    resetInterval();
+});
 
+prev.addEventListener('click', () => {
+    prevSlide();
+    resetInterval();
+});
+
+slideInterval = setInterval(nextSlide, 4000);
 
 slides.addEventListener('transitionend', () => {
     if (counter >= images.length) {
